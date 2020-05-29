@@ -1,0 +1,89 @@
+SELECT
+S.student_id `Student ID`,
+C.course_id `Course ID`,
+Cl.class_id `Class ID`
+FROM
+Student AS S
+INNER JOIN
+student_course AS sc
+ON S.student_id = Sc.student_id
+INNER JOIN
+Courses AS C
+ON C.course_id = Sc.course_id
+INNER JOIN
+Class AS Cl
+ON Cl.class_id = S.class_id;
+
+SELECT 
+B.book_id `Book ID`,
+B.book_name `Book Name`, 
+M.member_id `Member ID`,
+M.student_id `Student ID`
+FROM 
+Books AS B
+LEFT JOIN
+issued_books AS I
+ON B.book_id = I.book_id
+LEFT JOIN
+Members AS M
+ON
+M.member_id = I.member_id ORDER BY M.member_id DESC;
+
+SELECT 
+B.book_id `Book ID`,
+B.book_name `Book Name`, 
+M.member_id `Member ID`,
+M.student_id `Student ID`
+FROM 
+Books AS B
+RIGHT JOIN
+issued_books AS I
+ON B.book_id = I.book_id
+RIGHT JOIN
+Members AS M
+ON
+M.member_id = I.member_id ORDER BY B.book_id DESC;
+
+SELECT 
+T.teacher_id AS `Teacher ID`,
+T.teacher_name `Teacher Name`,
+D.department_id `Department ID`,
+S.subject_id `Subejct ID`,
+PH.time_period `Time`
+FROM
+Department AS D
+JOIN
+Teacher AS T
+ON D.department_id = T.department_id
+JOIN
+teacher_teaches AS TT
+ON T.teacher_id = TT.teacher_id
+JOIN
+Subject AS S
+ON S.subject_id = TT.subject_id
+JOIN
+PeriodHour AS PH
+ON S.subject_id = PH.subject_id;
+
+SELECT
+E.exam_id `Exam ID`,
+S.student_id `Student ID`,
+Su.subject_id `Subject ID`
+FROM
+Student AS S, 
+Eximination AS E, 
+Subject AS Su,
+Class AS Cl,
+exam_subject AS Es
+WHERE 
+S.class_id = Cl.class_id 
+AND
+Cl.class_id = Su.class_id
+AND
+Su.subject_id = Es.subject_id
+AND
+E.exam_id = Es.exam_id;
+
+
+
+

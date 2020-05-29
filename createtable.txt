@@ -1,0 +1,148 @@
+
+CREATE TABLE `Student` (
+  `student_id` VARCHAR(10),
+  `student_name` VARCHAR(30) NOT NULL,
+  `class_id` VARCHAR(10) NOT NULL,
+  `roll_no` INT NOT NULL,
+  `DOB` DATE NOT NULL,
+  `gender` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`student_id`)
+);
+
+CREATE TABLE `Parent` (
+  `parent_name` VARCHAR(30) NOT NULL,
+  `student_id` VARCHAR(10) NOT NULL,
+  `phone_number` BIGINT NOT NULL,
+  `parent_address` VARCHAR(40) NOT NULL,
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`)
+);
+
+CREATE TABLE `Attendance` (
+  `student_id` VARCHAR(10) NOT NULL,
+  `total_class` INT NOT NULL,
+  `present_days` INT NOT NULL,
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`)
+);
+
+CREATE TABLE `Courses` (
+  `course_id` VARCHAR(10),
+  `course_name` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`course_id`),
+);
+
+CREATE TABLE `Class` (
+  `class_id` VARCHAR(10),
+  `class_name` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`class_id`)
+);
+
+ALTER TABLE `Student` ADD FOREIGN KEY (`class_id`) REFERENCES Class(`class_id`);
+
+CREATE TABLE `Subject` (
+  `subject_id` VARCHAR(10),
+  `subject_name` VARCHAR(20) NOT NULL,
+  `class_id` VARCHAR(10) NOT NULL,
+  `course_id` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`subject_id`),
+  FOREIGN KEY (`class_id`) REFERENCES Class(`class_id`),
+  FOREIGN KEY (`course_id`) REFERENCES Courses(`course_id`)
+);
+
+CREATE TABLE `PeriodHour` (
+  `subject_id` VARCHAR(10) NOT NULL,
+  `time_period` FLOAT NOT NULL,
+  FOREIGN KEY (`subject_id`) REFERENCES Subject(`subject_id`)
+);
+
+CREATE TABLE `Marks` (
+  `student_id` VARCHAR(10) NOT NULL,
+  `subject_id` VARCHAR(10) NOT NULL,
+  `sub_marks` INT NOT NULL,
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`),
+  FOREIGN KEY (`subject_id`) REFERENCES Subject(`subject_id`)
+);
+
+CREATE TABLE `Department` (
+  `department_id` VARCHAR(10),
+  `department_name` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`department_id`)
+);
+
+CREATE TABLE `Teacher` (
+  `teacher_id` INT,
+  `teacher_name` VARCHAR(30) NOT NULL,
+  `teacher_address` VARCHAR(40) NOT NULL,
+  `department_id` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`teacher_id`),
+  FOREIGN KEY (`department_id`) REFERENCES Department(`department_id`)
+);
+
+CREATE TABLE `Staff` (
+  `staff_id` VARCHAR(10),
+  `staff_name` VARCHAR(30) NOT NULL,
+  `work_role` VARCHAR(40) NOT NULL,
+  `staff_phone` BIGINT NOT NULL,
+  `department_id` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`staff_id`),
+  FOREIGN KEY (`department_id`) REFERENCES Department(`department_id`)
+);
+
+CREATE TABLE `Examination` (
+  `exam_id` VARCHAR(10),
+  `exam_date` DATE NOT NULL,
+  PRIMARY KEY (`exam_id`)
+);
+
+CREATE TABLE `Library` (
+  `library_id` INT,
+  `library_name` VARCHAR(40) NOT NULL,
+  PRIMARY KEY (`library_id`)
+);
+
+CREATE TABLE `School` (
+  `school_name` VARCHAR(60) NOT NULL,
+  `school_address` VARCHAR(60) NOT NULL,
+  `CST No.` BIGINT NOT NULL
+);
+
+CREATE TABLE `Members` (
+  `member_id` VARCHAR(10),
+  `student_id` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`member_id`),
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`)
+);
+
+CREATE TABLE `Books` (
+  `book_id` INT AUTO_INCREMENT,
+  `book_name` VARCHAR(40) NOT NULL,
+  `writer` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`book_id`)
+);
+
+CREATE TABLE `issued_books` (
+  `member_id` VARCHAR(10) NOT NULL,
+  `book_id` INT ,
+  FOREIGN KEY (`member_id`) REFERENCES Members(`member_id`),
+  FOREIGN KEY (`book_id`) REFERENCES Books(`book_id`)
+);
+
+CREATE TABLE `teacher_teaches` (
+  `teacher_id` INT NOT NULL,
+  `subject_id` VARCHAR(10) NOT NULL,
+  FOREIGN KEY (`teacher_id`) REFERENCES Teacher(`teacher_id`),
+  FOREIGN KEY (`subject_id`) REFERENCES Subject(`subject_id`)
+);
+
+CREATE TABLE `exam_subject` (
+  `subject_id` VARCHAR(10) NOT NULL,
+  `exam_id` VARCHAR(10) NOT NULL,
+  FOREIGN KEY (`subject_id`) REFERENCES Subject(`subject_id`),
+  FOREIGN KEY (`exam_id`) REFERENCES Eximination(`exam_id`)
+);
+
+CREATE TABLE `student_course` (
+  `course_id` VARCHAR(10) NOT NULL,
+  `student_id` VARCHAR(10) NOT NULL,
+  FOREIGN KEY (`course_id`) REFERENCES Courses(`course_id`),
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`)
+);

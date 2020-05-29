@@ -1,0 +1,360 @@
+SELECT 
+UCASE(`teacher_name`) AS `Teacher Name`,
+`teacher_id` AS `Teacher ID`,
+`department_id` AS `Department ID` 
+FROM `Teacher` ORDER BY `teacher_name` ASC;
+
+SELECT 
+LCASE(`Teacher Name`),
+`Teacher ID`,
+`Department ID` 
+FROM (SELECT TRIM(`teacher_name`) AS `Teacher Name`,
+`teacher_id` AS `Teacher ID`,
+`department_id` AS `Department ID` 
+FROM `Teacher` ORDER BY `teacher_name` ASC) AS T;
+
+SELECT 
+Student.student_id AS `student ID`,
+CONCAT(`present_days`,' \/ ',`total_class`) AS `Present/Total`,
+`class_id` AS `Class ID`
+FROM
+`student`, `attendance` 
+WHERE 
+student.student_id = attendance.student_id 
+AND Student.class_id = 'LT02';
+
+SELECT
+`Student_id` AS `Old Student ID`,
+REPLACE(`student_id`, 'NP', 'PP') AS `NEW Student ID`  
+FROM `Student`; 
+
+SELECT
+AVG(`sub_marks`) AS `Average Marks`,
+`student_id` AS `Student ID` 
+FROM `marks` 
+WHERE `student_id`='NP04';
+
+SELECT 
+COUNT(`book_id`) AS `Total Books` 
+FROM `books`;
+
+SELECT 
+`student_id` AS `Student ID`, 
+SUM(`sub_marks`) AS `Total Course Marks` 
+FROM 
+`Marks` GROUP BY `student_id`;
+
+SELECT 
+`student_id` AS `Student ID`, 
+SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100 AS `Percentage` 
+FROM `Marks` 
+GROUP BY `student_id` 
+ORDER BY `Percentage` 
+DESC; 
+
+SELECT 
+`course_id` AS `Course ID`, 
+COUNT(*) AS `Subjects` 
+FROM `Subject` 
+Group BY `course_id`;
+
+SELECT 
+`student_id` AS `STUDENT`,
+`sub_marks` AS  `Heighest Mark`,
+`subject_id` AS `Subject` 
+From `marks`
+WHERE 
+`sub_marks` = (SELECT
+MAX(`sub_marks`)  
+FROM `Marks` 
+WHERE `subject_id`= 'E03') AND `subject_id`= 'E03';
+
+SELECT 
+`student_id` AS `STUDENT`,
+`sub_marks` AS  `Lowest Mark`,
+`subject_id` AS `Subject` 
+From `marks`
+WHERE 
+`sub_marks` = (SELECT
+MIN(`sub_marks`)  
+FROM `Marks` 
+WHERE `subject_id`= 'T12') AND `subject_id`= 'T12';
+
+SELECT 
+DATE(`exam_date`) AS `EXAM DATE`,
+`exam_id` AS `Exam ID` 
+FROM `eximination` 
+WHERE `exam_date` 
+BETWEEN '2019-05-9' AND '2019-05-10';   
+
+SELECT DISTINCT 
+`exam_date` AS `Examination's Date`  
+from `eximination` WHERE `exam_date` LIKE '2019%';
+
+SELECT `student_id` AS `Student ID`, 
+`present_days` AS `Present Days`, 
+(`present_days`/`total_class`)*100 AS `Present(%)` 
+FROM  `attendance` 
+WHERE (`present_days`/`total_class`)*100 > 80;
+
+SELECT 
+`Student_id` AS `Student ID`,
+`subject_id` AS `Subject ID`, 
+`sub_marks` AS `Subject Marks`,
+CASE
+    WHEN `sub_marks` >= 70 THEN 'Good Student'
+    WHEN `sub_marks` >= 60 THEN 'Average Student'
+    ELSE 'Poor Student'
+END AS `Student Remarks` 
+FROM `Marks` WHERE `subject_id` IN ('F04','E01');
+
+Select book_id AS `First ID in Table` from Books ORDER BY `book_id` ASC limit 1;
+
+Select book_id AS `LAST ID in Table` from Books ORDER BY `book_id` DESC limit 1;
+
+SELECT student_id AS `Student`,MID(Student_name, 2, 3) AS `Extracted Substrings(Name)` from Student;
+
+SELECT LEFT(`student_name`, 3) AS `LExtractString` FROM `student`;
+
+SELECT RIGHT(`student_name`, 3) AS `RExtractString` FROM `student`;
+
+SELECT 
+`student_id` AS `Studuent ID`,
+`parent_name` AS `Parent Name`,
+`phone_number` AS `Parent ph. Number`, 
+`parent_address` AS `Address` 
+FROM `Parent` 
+WHERE `parent_name` 
+IN (
+SELECT `parent_name` 
+FROM `parent` 
+WHERE `parent_name` LIKE 'C%'
+);
+
+
+SELECT
+`student_id` AS `Top Scorer`,
+SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100 AS `Percentage`
+FROM `Marks`
+GROUP BY `student_id`
+HAVING (SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100) =
+(
+SELECT MAX(`Percentage`)
+FROM (
+SELECT
+`student_id` AS `Student ID`, 
+SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100 AS `Percentage`
+FROM `Marks`
+GROUP BY `student_id`
+ORDER BY `Percentage` DESC) AS `MaxGrade`
+);
+
+
+SELECT 
+`student_id` AS `Student ID`, 
+`student_name` AS `Student Name`, 
+`parent_name` AS `Parent Name` 
+FROM (
+SELECT 
+Student.student_id, 
+Student.student_name, 
+Parent.parent_name, 
+Parent.phone_number, 
+Student.class_id 
+FROM `Student` 
+INNER JOIN `Parent` 
+ON Student.student_id = Parent.student_id
+) AS JoinedTable;
+
+SELECT 
+`student_id` AS `Student ID`, 
+SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100 AS `Percentage` 
+FROM `Marks` 
+GROUP BY `student_id`; 
+
+SELECT 
+`department_id` AS `Department ID`, 
+COUNT(*) AS `Teachers in Department` 
+FROM `Teacher` 
+Group BY `department_id`;
+
+SELECT
+S.student_id `Student ID`,
+C.course_id `Course ID`,
+Cl.class_id `Class ID`
+FROM
+Student AS S
+INNER JOIN
+student_course AS sc
+ON S.student_id = Sc.student_id
+INNER JOIN
+Courses AS C
+ON C.course_id = Sc.course_id
+INNER JOIN
+Class AS Cl
+ON Cl.class_id = S.class_id;
+
+SELECT 
+B.book_id `Book ID`,
+B.book_name `Book Name`, 
+M.member_id `Member ID`,
+M.student_id `Student ID`
+FROM 
+Books AS B
+LEFT JOIN
+issued_books AS I
+ON B.book_id = I.book_id
+LEFT JOIN
+Members AS M
+ON
+M.member_id = I.member_id ORDER BY M.member_id DESC;
+
+SELECT 
+B.book_id `Book ID`,
+B.book_name `Book Name`, 
+M.member_id `Member ID`,
+M.student_id `Student ID`
+FROM 
+Books AS B
+RIGHT JOIN
+issued_books AS I
+ON B.book_id = I.book_id
+RIGHT JOIN
+Members AS M
+ON
+M.member_id = I.member_id ORDER BY B.book_id DESC;
+
+SELECT 
+T.teacher_id AS `Teacher ID`,
+T.teacher_name `Teacher Name`,
+D.department_id `Department ID`,
+S.subject_id `Subejct ID`,
+PH.time_period `Time`
+FROM
+Department AS D
+JOIN
+Teacher AS T
+ON D.department_id = T.department_id
+JOIN
+teacher_teaches AS TT
+ON T.teacher_id = TT.teacher_id
+JOIN
+Subject AS S
+ON S.subject_id = TT.subject_id
+JOIN
+PeriodHour AS PH
+ON S.subject_id = PH.subject_id;
+
+SELECT
+E.exam_id `Exam ID`,
+S.student_id `Student ID`,
+Su.subject_id `Subject ID`
+FROM
+Student AS S, 
+Eximination AS E, 
+Subject AS Su,
+Class AS Cl,
+exam_subject AS Es
+WHERE 
+S.class_id = Cl.class_id 
+AND
+Cl.class_id = Su.class_id
+AND
+Su.subject_id = Es.subject_id
+AND
+E.exam_id = Es.exam_id;
+
+INSERT INTO `Student` ( `student_id`, `student_name`, `class_id`, `roll_no`, `DOB`, `gender`) 
+VALUES (
+'NP11','Prakriti Phuyal','LT04','10','2002-01-02','FEMALE'
+);
+
+SELECT * FROM `Student`;
+
+INSERT INTO `Parent` ( `parent_name`, `student_id`, `phone_number`, `parent_address`) 
+VALUES (
+'Catti Phuyal','NP11','9812349079','Bijaynagar, Damak'
+);
+
+SELECT * FROM `Parent`;
+
+INSERT INTO `student_course` (`course_id`,`student_id`)
+VALUES (
+'S13', 'NP11'
+);
+
+SELECT * FROM `student_course`;
+
+INSERT INTO `Members` (`member_id`,`student_id`)
+VALUES (
+'LRBNP11', 'NP11'
+);
+
+SELECT * FROM `Members`;
+
+INSERT INTO `Books` (`book_name`,`writer`)
+VALUES (
+'The Shadow of the Wind', 'Carlos Ruiz Zafon'
+);
+
+SELECT * FROM `Books`;
+
+UPDATE `Student`
+SET 
+`student_name` = 'Samyog Gotam',
+`class_id` = 'LT04',
+`gender` = 'FEMALE'
+WHERE `student_id` = 'NP07';
+
+SELECT * FROM `Student`;
+
+UPDATE `Staff`
+SET 
+`staff_name` = 'Rose Khadka',
+`work_role` = 'Event Manager',
+`staff_phone` = '9842223333'
+WHERE `staff_id` = 'SF06';
+
+SELECT * FROM `Staff`;
+
+UPDATE `Teacher`
+SET 
+`teacher_address` = 'Rara Lake',
+`department_id` = 'TS10'
+WHERE `teacher_id` = 110;
+
+SELECT * FROM `Teacher`;
+
+UPDATE `teacher_teaches`
+SET
+`subject_id` = 'E01'
+WHERE teacher_id = '110';
+
+SELECT * FROM `teacher_teaches`;
+
+UPDATE `periodhour`
+SET
+`time_period` = 1
+WHERE subject_id = 'H13';
+
+SELECT * FROM `periodhour`;
+
+DELETE FROM `student_course` WHERE `student_id`= 'NP11';
+
+SELECT * FROM `student_course`;
+
+DELETE FROM `members` WHERE `student_id`= 'NP11';
+
+SELECT * FROM `members`;
+
+DELETE FROM `Parent` WHERE `student_id`= 'NP11';
+
+SELECT * FROM `Parent`;
+
+DELETE FROM `Student` WHERE `student_id`= 'NP11';
+
+SELECT * FROM `Student`;
+
+DELETE FROM `issued_books` WHERE `book_id`= 1006;
+
+SELECT * FROM `issued_books`;

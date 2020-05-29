@@ -1,0 +1,203 @@
+INSERT INTO `class` VALUES
+('LT01','Lecture Theatre 1'),
+('LT02','Lecture Theatre 2'),
+('LT03','Lecture Theatre 3'),
+('LT04','Lecture Theatre 4');
+
+SELECT * FROM `class`; 
+
+INSERT INTO `Student` VALUES 
+('NP01', 'Prashant Phuyal', 'LT01', '10', '2001-01-16', 'MALE'), 
+('NP02', 'Razz BC', 'LT01', '11', '2001-02-11', 'MALE'),
+('NP03', 'Aayush Shrestha', 'LT01', '12', '2001-02-19', 'MALE'),
+('NP04', 'Rachana Subedi', 'LT02', '09', '2001-05-16', 'FEMALE'),
+('NP05', 'Aavinab Shah', 'LT02', '14', '2001-07-11', 'MALE'),
+('NP06', 'Shruti Kc', 'LT02', '16', '2000-09-11', 'FEMALE'),
+('NP07', 'Sam Gautam', 'LT03', '01', '2002-01-03', 'MALE'),
+('NP08', 'Jeevan Risal', 'LT03', '05', '2001-07-04', 'MALE'),
+('NP09', 'Kareena Shrestha', 'LT04', '07', '2000-01-11', 'FEMALE'),
+('NP10', 'Babi Acharya', 'LT04', '05', '2001-07-04', 'FEMALE');
+
+SELECT * FROM `student`;
+
+INSERT INTO `Parent` VALUES 
+('Chandra', 'NP01', '9814365499', 'Itahari-9, Sunsari'),
+('Calvin', 'NP02', '9814262492', 'Dharan-17, Sunsari'),
+('Jonathan', 'NP03', '9826245349', 'Biratnagar-1, Morang'),
+('Tristan', 'NP04', '9812412124', 'Biratnagar-2, Morang'),
+('Bran', 'NP05', '9868758782', 'Itahari-1, Sunsari'),
+('Eden', 'NP06', '9826245349', 'Itahari-9, Sunsari'),
+('Jonathan', 'NP07', '9826765745', 'dharan-9, Sunsari'),
+('Abdul', 'NP08', '9826765712', 'Itahari-9, Sunsari'),
+('Adam', 'NP09', '9826765713', 'dharan-2, Sunsari'),
+('Bran', 'NP10', '9826765715', 'Khorsane-1, Morang');
+
+SELECT * FROM `parent`;
+
+INSERT INTO `Courses` VALUES 
+('S10', 'Arts and Humanity'),
+('S11', 'Computer Science'),
+('S12', 'IT'),
+('S13', 'Business');
+
+SELECT * FROM `courses`;
+
+INSERT INTO `Subject` VALUES 
+('E01', 'History', 'LT01','S10'),
+('E02', 'Music and Art','LT01','S10'),
+('E03', 'Philosophy', 'LT01','S10'),
+('F01', 'Algorithms', 'LT02','S11'),
+('F02', 'Software Development', 'LT02','S11'),
+('F03', 'Computer Security', 'LT02','S11'),
+('F04', 'Design and Product', 'LT02','S11'),
+('H10', 'Networking', 'LT03','S12'),
+('H11', 'Cloud Computing', 'LT03','S12'),
+('H12', 'Data Management', 'LT03','S12'),
+('H13', 'Security', 'LT03','S12'),
+('T10', 'Finance', 'LT04','S13'),
+('T11', 'Marketing', 'LT04','S13'),
+('T12', 'Entrepreneurship', 'LT04','S13');
+
+SELECT * FROM `subject`;
+
+INSERT INTO `PeriodHour` VALUES 
+('E01', '1'), ('E02', '1.5'), ('E03','1.5'), ('F01', '1'), ('F02', '1.5'),
+('F03', '2'), ('F04', '2'), ('H10', '1.5'), ('H11', '2'), ('H12', '2'),
+('H13', '2'), ('T10', '1.5'), ('T11','1.5'), ('T12', '2');
+
+SELECT * FROM `periodhour`;
+
+INSERT INTO `Marks` VALUES
+('NP01','E01','60'), ('NP01','E02','65'), ('NP01','E03','75'),
+('NP02','E01','63'), ('NP02','E02','55'), ('NP02','E03','61'),
+('NP03','E01','70'), ('NP03','E02','61'), ('NP03','E03','65'),
+('NP04','F01','60'), ('NP04','F02','65'), ('NP04','F03','57'), ('NP04','F04','70'),
+('NP05','F01','61'), ('NP05','F02','67'), ('NP05','F03','75'), ('NP05','F04','75'),
+('NP06','F01','64'), ('NP06','F02','64'), ('NP06','F03','78'), ('NP06','F04','42'),
+('NP07','H10','61'), ('NP07','H11','67'), ('NP07','H12','75'), ('NP07','H13','75'),
+('NP08','H10','64'), ('NP08','H11','64'), ('NP08','H12','78'), ('NP08','H13','42'),
+('NP09','T10','61'), ('NP09','T11','67'), ('NP09','T12','75'),
+('NP10','T10','64'), ('NP10','T11','64'), ('NP10','T12','78');
+
+SELECT * FROM `marks`;
+
+INSERT INTO `Department` VALUES
+('TS10','Arts and Humanity Department'),
+('TS11','Computer Science Department'),
+('TS12','Information Technology Department'),
+('TS13','Business Department'),
+('SS00','Staff Department');
+
+SELECT * FROM `department`;
+
+INSERT INTO `Teacher` VALUES
+('100','Arun Knott','Pokhara','TS10'),
+('102',' Sufyan Wilder', 'Hetauda', 'TS10'),
+('104',' Marta Rangel','Biratnagar','TS11'),
+('105',' Malcolm Lucas', 'Itahari', 'TS11'),
+('106',' Roscoe Ochoa','Biratnagar','TS12'),
+('108',' Nawal Whittaker', 'Dharan', 'TS12'),
+('110', 'Mila House', 'Rara', 'TS12'),
+('109',' Roscoe Ochoa','Biratnagar','TS13'),
+('111','Haidar Townsend', 'Kakarvitta', 'TS13');
+
+SELECT * FROM `teacher`;
+
+INSERT INTO `Attendance` VALUES
+('NP01', '182', '140'), ('NP02', '182','150'), ('NP03', '182','162'),
+('NP04', '190','178'), ('NP05', '190','177'), ('NP06', '190','181'),
+('NP07', '185','178'), ('NP08', '185','181'),
+('NP09', '192','187'), ('NP10', '192','178');
+
+SELECT * FROM `attendance`;
+
+INSERT INTO `Staff` VALUES
+('SF01','Romany Firth','Accountant','9865432411','SS00'),
+('SF02','Anna Lowe', 'Accountant Assistance','9862353212','SS00'),
+('SF03','Rosa Byrne','Librarian','9823423231','SS00'),
+('SF04','Bilal Howells','Librarian','9823456321','SS00'),
+('SF05','Mischa Friedman','Maintanance','9823453435','SS00'),
+('SF06','Robert Betts','Cleaner','9842432412','SS00'),
+('SF07','Fardeen Pittman','BodyGaurd','9842325256','SS00');
+
+SELECT * FROM `staff`;
+
+INSERT INTO `Eximination` VALUES
+('EX19E01','2019-05-09'),
+('EX19E02','2019-05-11'),
+('EX19E03','2019-05-13'),
+('EX19F01','2019-05-09'),
+('EX19F02','2019-05-10'),
+('EX19F03','2019-05-12'),
+('EX19F04','2019-05-14'),
+('EX19H10','2019-05-09'),
+('EX19H11','2019-05-10'),
+('EX19H12','2019-05-12'),
+('EX19H13','2019-05-13'); 
+
+SELECT * FROM `eximination`;
+
+INSERT INTO `School` VALUES
+('Riverdale Middle School', 'Bp-chowk Itahari-8, Sunsari', '31526816182');
+
+SELECT * FROM `school`;
+
+INSERT INTO `Library` VALUES
+('746782','Library of Riverdale');
+
+SELECT * FROM `library`;
+
+INSERT INTO `Books` VALUES
+('1000', 'To Kill a Mockingbird', 'Harper Lee'),
+('1001', '1984', 'George Orwell'),
+('1002', 'Harry Potter and the Philosopher\'s Stone', 'J.K. Rowling'),
+('1003', 'the Lord of the Rings', 'J.R.R'),
+('1004', 'the Great Gatsby', 'F. Scott Fitzgerald'),
+('1005', 'Pride and Prejudice', 'Jane Austen'),
+('1006', 'the Diary of a Young Girl', 'Markus Zusak'),
+('1007', 'the Book Thief', 'George Orwell'),
+('1008', 'the hobbit', 'J.R.R Tolkien'),
+('1009', 'Little Women', 'Louisa May Alcott');
+
+SELECT * FROM `books`;
+
+INSERT INTO `Members` VALUES
+('LRBNP01','NP01'), ('LRBNP02','NP02'), ('LRBNP03','NP03'), ('LRBNP04','NP04'),
+('LRBNP05','NP05'), ('LRBNP06','NP06'), ('LRBNP07','NP07'), ('LRBNP08','NP08'),
+('LRBNP09','NP09'), ('LRBNP10','NP10');
+
+SELECT * FROM `members`;
+
+INSERT INTO `issued_books` VALUES
+('LRBNP01','1000'), ('LRBNP01','1007'), ('LRBNP05','1002'),
+('LRBNP03','1009'), ('LRBNP10','1003'), ('LRBNP04','1006'),
+('LRBNP03','1005');
+
+SELECT * FROM `issued_books`;
+
+INSERT INTO `teacher_teaches` VALUES
+('100','E01'), ('100','E03'), 
+('102','E02'), ('102','E01'), 
+('104','F01'), ('104','F04'),
+('105','F02'), ('105','F03'),
+('106','H10'),
+('108','H11'),
+('110','H12'), ('110','H13'),
+('109','T10'),
+('111','T11'), ('111','T12');
+
+SELECT * FROM `teacher_teaches`;
+
+INSERT INTO `exam_subject` VALUES
+('E01','EX19E01'), ('E02','EX19E02'), ('E03','EX19E03'),
+('F01','EX19F01'), ('F02','EX19F02'), ('F03','EX19F03'), ('F04','EX19F04'),
+('H10','EX19H10'), ('H11','EX19H11'), ('H12','EX19H12'), ('H13','EX19H13');
+
+SELECT * FROM `exam_subject`;
+
+INSERT INTO `student_course` VALUES 
+('S10','NP01'), ('S10','NP02'), ('S10','NP03'),
+('S11','NP04'), ('S11','NP05'), ('S11','NP06'),
+('S12','NP07'), ('S12','NP08'), ('S13','NP09'), ('S13','NP10');
+
+SELECT * FROM `student_course`;

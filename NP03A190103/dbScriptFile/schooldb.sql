@@ -1,0 +1,753 @@
+
+CREATE TABLE `Student` (
+  `student_id` VARCHAR(10),
+  `student_name` VARCHAR(30) NOT NULL,
+  `class_id` VARCHAR(10) NOT NULL,
+  `roll_no` INT NOT NULL,
+  `DOB` DATE NOT NULL,
+  `gender` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`student_id`)
+);
+
+DESC `student`;
+
+CREATE TABLE `Parent` (
+  `parent_name` VARCHAR(30) NOT NULL,
+  `student_id` VARCHAR(10) NOT NULL,
+  `phone_number` BIGINT NOT NULL,
+  `parent_address` VARCHAR(40) NOT NULL,
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`)
+);
+
+DESC `parent`;
+
+CREATE TABLE `Attendance` (
+  `student_id` VARCHAR(10) NOT NULL,
+  `total_class` INT NOT NULL,
+  `present_days` INT NOT NULL,
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`)
+);
+
+DESC `attendance`;
+
+CREATE TABLE `Courses` (
+  `course_id` VARCHAR(10),
+  `course_name` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`course_id`)
+);
+
+DESC `courses`;
+
+CREATE TABLE `Class` (
+  `class_id` VARCHAR(10),
+  `class_name` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`class_id`)
+);
+
+DESC `class`;
+
+ALTER TABLE `Student` ADD FOREIGN KEY (`class_id`) REFERENCES Class(`class_id`);
+
+CREATE TABLE `Subject` (
+  `subject_id` VARCHAR(10),
+  `subject_name` VARCHAR(20) NOT NULL,
+  `class_id` VARCHAR(10) NOT NULL,
+  `course_id` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`subject_id`),
+  FOREIGN KEY (`class_id`) REFERENCES Class(`class_id`),
+  FOREIGN KEY (`course_id`) REFERENCES Courses(`course_id`)
+);
+
+DESC `Subject`;
+
+CREATE TABLE `PeriodHour` (
+  `subject_id` VARCHAR(10) NOT NULL,
+  `time_period` FLOAT NOT NULL,
+  FOREIGN KEY (`subject_id`) REFERENCES Subject(`subject_id`)
+);
+
+DESC `PeriodHour`;
+
+CREATE TABLE `Marks` (
+  `student_id` VARCHAR(10) NOT NULL,
+  `subject_id` VARCHAR(10) NOT NULL,
+  `sub_marks` INT NOT NULL,
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`),
+  FOREIGN KEY (`subject_id`) REFERENCES Subject(`subject_id`)
+);
+
+DESC `Marks`;
+
+CREATE TABLE `Department` (
+  `department_id` VARCHAR(10),
+  `department_name` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`department_id`)
+);
+
+DESC `Department`;
+
+CREATE TABLE `Teacher` (
+  `teacher_id` INT,
+  `teacher_name` VARCHAR(30) NOT NULL,
+  `teacher_address` VARCHAR(40) NOT NULL,
+  `department_id` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`teacher_id`),
+  FOREIGN KEY (`department_id`) REFERENCES Department(`department_id`)
+);
+
+DESC `Teacher`;
+
+CREATE TABLE `Staff` (
+  `staff_id` VARCHAR(10),
+  `staff_name` VARCHAR(30) NOT NULL,
+  `work_role` VARCHAR(40) NOT NULL,
+  `staff_phone` BIGINT NOT NULL,
+  `department_id` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`staff_id`),
+  FOREIGN KEY (`department_id`) REFERENCES Department(`department_id`)
+);
+
+DESC `Staff`;
+
+CREATE TABLE `Eximination` (
+  `exam_id` VARCHAR(10),
+  `exam_date` DATE NOT NULL,
+  PRIMARY KEY (`exam_id`)
+);
+
+DESC `Eximination`;
+
+CREATE TABLE `Library` (
+  `library_id` INT,
+  `library_name` VARCHAR(40) NOT NULL,
+  PRIMARY KEY (`library_id`)
+);
+
+DESC `Library`;
+
+CREATE TABLE `School` (
+  `school_name` VARCHAR(60) NOT NULL,
+  `school_address` VARCHAR(60) NOT NULL,
+  `CST No.` BIGINT NOT NULL
+);
+
+DESC `school`;
+
+CREATE TABLE `Members` (
+  `member_id` VARCHAR(10),
+  `student_id` VARCHAR(10) NOT NULL,
+  PRIMARY KEY (`member_id`),
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`)
+);
+
+DESC `members`;
+
+CREATE TABLE `Books` (
+  `book_id` INT AUTO_INCREMENT,
+  `book_name` VARCHAR(40) NOT NULL,
+  `writer` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`book_id`)
+);
+
+DESC `Books`;
+
+CREATE TABLE `issued_books` (
+  `member_id` VARCHAR(10) NOT NULL,
+  `book_id` INT ,
+  FOREIGN KEY (`member_id`) REFERENCES Members(`member_id`),
+  FOREIGN KEY (`book_id`) REFERENCES Books(`book_id`)
+);
+
+DESC `issued_books`;
+
+CREATE TABLE `teacher_teaches` (
+  `teacher_id` INT NOT NULL,
+  `subject_id` VARCHAR(10) NOT NULL,
+  FOREIGN KEY (`teacher_id`) REFERENCES Teacher(`teacher_id`),
+  FOREIGN KEY (`subject_id`) REFERENCES Subject(`subject_id`)
+);
+
+DESC `teacher_teaches`;
+
+CREATE TABLE `exam_subject` (
+  `subject_id` VARCHAR(10) NOT NULL,
+  `exam_id` VARCHAR(10) NOT NULL,
+  FOREIGN KEY (`subject_id`) REFERENCES Subject(`subject_id`),
+  FOREIGN KEY (`exam_id`) REFERENCES Eximination(`exam_id`)
+);
+
+DESC `exam_subject`;
+
+CREATE TABLE `student_course` (
+  `course_id` VARCHAR(10) NOT NULL,
+  `student_id` VARCHAR(10) NOT NULL,
+  FOREIGN KEY (`course_id`) REFERENCES Courses(`course_id`),
+  FOREIGN KEY (`student_id`) REFERENCES Student(`student_id`)
+);
+
+DESC `student_course`;
+
+INSERT INTO `class` VALUES
+('LT01','Lecture Theatre 1'),
+('LT02','Lecture Theatre 2'),
+('LT03','Lecture Theatre 3'),
+('LT04','Lecture Theatre 4');
+
+SELECT * FROM `class`; 
+
+INSERT INTO `Student` VALUES 
+('NP01', 'Prashant Phuyal', 'LT01', '10', '2001-01-16', 'MALE'), 
+('NP02', 'Razz BC', 'LT01', '11', '2001-02-11', 'MALE'),
+('NP03', 'Aayush Shrestha', 'LT01', '12', '2001-02-19', 'MALE'),
+('NP04', 'Rachana Subedi', 'LT02', '09', '2001-05-16', 'FEMALE'),
+('NP05', 'Aavinab Shah', 'LT02', '14', '2001-07-11', 'MALE'),
+('NP06', 'Shruti Kc', 'LT02', '16', '2000-09-11', 'FEMALE'),
+('NP07', 'Sam Gautam', 'LT03', '01', '2002-01-03', 'MALE'),
+('NP08', 'Jeevan Risal', 'LT03', '05', '2001-07-04', 'MALE'),
+('NP09', 'Kareena Shrestha', 'LT04', '07', '2000-01-11', 'FEMALE'),
+('NP10', 'Babi Acharya', 'LT04', '05', '2001-07-04', 'FEMALE');
+
+SELECT * FROM `student`;
+
+INSERT INTO `Parent` VALUES 
+('Chandra', 'NP01', '9814365499', 'Itahari-9, Sunsari'),
+('Calvin', 'NP02', '9814262492', 'Dharan-17, Sunsari'),
+('Jonathan', 'NP03', '9826245349', 'Biratnagar-1, Morang'),
+('Tristan', 'NP04', '9812412124', 'Biratnagar-2, Morang'),
+('Bran', 'NP05', '9868758782', 'Itahari-1, Sunsari'),
+('Eden', 'NP06', '9826245349', 'Itahari-9, Sunsari'),
+('Jonathan', 'NP07', '9826765745', 'dharan-9, Sunsari'),
+('Abdul', 'NP08', '9826765712', 'Itahari-9, Sunsari'),
+('Adam', 'NP09', '9826765713', 'dharan-2, Sunsari'),
+('Bran', 'NP10', '9826765715', 'Khorsane-1, Morang');
+
+SELECT * FROM `parent`;
+
+INSERT INTO `Courses` VALUES 
+('S10', 'Arts and Humanity'),
+('S11', 'Computer Science'),
+('S12', 'IT'),
+('S13', 'Business');
+
+SELECT * FROM `courses`;
+
+INSERT INTO `Subject` VALUES 
+('E01', 'History', 'LT01','S10'),
+('E02', 'Music and Art','LT01','S10'),
+('E03', 'Philosophy', 'LT01','S10'),
+('F01', 'Algorithms', 'LT02','S11'),
+('F02', 'Software Development', 'LT02','S11'),
+('F03', 'Computer Security', 'LT02','S11'),
+('F04', 'Design and Product', 'LT02','S11'),
+('H10', 'Networking', 'LT03','S12'),
+('H11', 'Cloud Computing', 'LT03','S12'),
+('H12', 'Data Management', 'LT03','S12'),
+('H13', 'Security', 'LT03','S12'),
+('T10', 'Finance', 'LT04','S13'),
+('T11', 'Marketing', 'LT04','S13'),
+('T12', 'Entrepreneurship', 'LT04','S13');
+
+SELECT * FROM `subject`;
+
+INSERT INTO `PeriodHour` VALUES 
+('E01', '1'), ('E02', '1.5'), ('E03','1.5'), ('F01', '1'), ('F02', '1.5'),
+('F03', '2'), ('F04', '2'), ('H10', '1.5'), ('H11', '2'), ('H12', '2'),
+('H13', '2'), ('T10', '1.5'), ('T11','1.5'), ('T12', '2');
+
+SELECT * FROM `periodhour`;
+
+INSERT INTO `Marks` VALUES
+('NP01','E01','60'), ('NP01','E02','65'), ('NP01','E03','75'),
+('NP02','E01','63'), ('NP02','E02','55'), ('NP02','E03','61'),
+('NP03','E01','70'), ('NP03','E02','61'), ('NP03','E03','65'),
+('NP04','F01','60'), ('NP04','F02','65'), ('NP04','F03','57'), ('NP04','F04','70'),
+('NP05','F01','61'), ('NP05','F02','67'), ('NP05','F03','75'), ('NP05','F04','75'),
+('NP06','F01','64'), ('NP06','F02','64'), ('NP06','F03','78'), ('NP06','F04','42'),
+('NP07','H10','61'), ('NP07','H11','67'), ('NP07','H12','75'), ('NP07','H13','75'),
+('NP08','H10','64'), ('NP08','H11','64'), ('NP08','H12','78'), ('NP08','H13','42'),
+('NP09','T10','61'), ('NP09','T11','67'), ('NP09','T12','75'),
+('NP10','T10','64'), ('NP10','T11','64'), ('NP10','T12','78');
+
+SELECT * FROM `marks`;
+
+INSERT INTO `Department` VALUES
+('TS10','Arts and Humanity Department'),
+('TS11','Computer Science Department'),
+('TS12','Information Technology Department'),
+('TS13','Business Department'),
+('SS00','Staff Department');
+
+SELECT * FROM `department`;
+
+INSERT INTO `Teacher` VALUES
+('100','Arun Knott','Pokhara','TS10'),
+('102',' Sufyan Wilder', 'Hetauda', 'TS10'),
+('104',' Marta Rangel','Biratnagar','TS11'),
+('105',' Malcolm Lucas', 'Itahari', 'TS11'),
+('106',' Roscoe Ochoa','Biratnagar','TS12'),
+('108',' Nawal Whittaker', 'Dharan', 'TS12'),
+('110', 'Mila House', 'Rara', 'TS12'),
+('109',' Roscoe Ochoa','Biratnagar','TS13'),
+('111','Haidar Townsend', 'Kakarvitta', 'TS13');
+
+SELECT * FROM `teacher`;
+
+INSERT INTO `Attendance` VALUES
+('NP01', '182', '140'), ('NP02', '182','150'), ('NP03', '182','162'),
+('NP04', '190','178'), ('NP05', '190','177'), ('NP06', '190','181'),
+('NP07', '185','178'), ('NP08', '185','181'),
+('NP09', '192','187'), ('NP10', '192','178');
+
+SELECT * FROM `attendance`;
+
+INSERT INTO `Staff` VALUES
+('SF01','Romany Firth','Accountant','9865432411','SS00'),
+('SF02','Anna Lowe', 'Accountant Assistance','9862353212','SS00'),
+('SF03','Rosa Byrne','Librarian','9823423231','SS00'),
+('SF04','Bilal Howells','Librarian','9823456321','SS00'),
+('SF05','Mischa Friedman','Maintanance','9823453435','SS00'),
+('SF06','Robert Betts','Cleaner','9842432412','SS00'),
+('SF07','Fardeen Pittman','BodyGaurd','9842325256','SS00');
+
+SELECT * FROM `staff`;
+
+INSERT INTO `Eximination` VALUES
+('EX19E01','2019-05-09'),
+('EX19E02','2019-05-11'),
+('EX19E03','2019-05-13'),
+('EX19F01','2019-05-09'),
+('EX19F02','2019-05-10'),
+('EX19F03','2019-05-12'),
+('EX19F04','2019-05-14'),
+('EX19H10','2019-05-09'),
+('EX19H11','2019-05-10'),
+('EX19H12','2019-05-12'),
+('EX19H13','2019-05-13'); 
+
+SELECT * FROM `eximination`;
+
+INSERT INTO `School` VALUES
+('Riverdale Middle School', 'Bp-chowk Itahari-8, Sunsari', '31526816182');
+
+SELECT * FROM `school`;
+
+INSERT INTO `Library` VALUES
+('746782','Library of Riverdale');
+
+SELECT * FROM `library`;
+
+INSERT INTO `Books` VALUES
+('1000', 'To Kill a Mockingbird', 'Harper Lee'),
+('1001', '1984', 'George Orwell'),
+('1002', 'Harry Potter and the Philosopher\'s Stone', 'J.K. Rowling'),
+('1003', 'the Lord of the Rings', 'J.R.R'),
+('1004', 'the Great Gatsby', 'F. Scott Fitzgerald'),
+('1005', 'Pride and Prejudice', 'Jane Austen'),
+('1006', 'the Diary of a Young Girl', 'Markus Zusak'),
+('1007', 'the Book Thief', 'George Orwell'),
+('1008', 'the hobbit', 'J.R.R Tolkien'),
+('1009', 'Little Women', 'Louisa May Alcott');
+
+SELECT * FROM `books`;
+
+INSERT INTO `Members` VALUES
+('LRBNP01','NP01'), ('LRBNP02','NP02'), ('LRBNP03','NP03'), ('LRBNP04','NP04'),
+('LRBNP05','NP05'), ('LRBNP06','NP06'), ('LRBNP07','NP07'), ('LRBNP08','NP08'),
+('LRBNP09','NP09'), ('LRBNP10','NP10');
+
+SELECT * FROM `members`;
+
+INSERT INTO `issued_books` VALUES
+('LRBNP01','1000'), ('LRBNP01','1007'), ('LRBNP05','1002'),
+('LRBNP03','1009'), ('LRBNP10','1003'), ('LRBNP04','1006'),
+('LRBNP03','1005');
+
+SELECT * FROM `issued_books`;
+
+INSERT INTO `teacher_teaches` VALUES
+('100','E01'), ('100','E03'), 
+('102','E02'), ('102','E01'), 
+('104','F01'), ('104','F04'),
+('105','F02'), ('105','F03'),
+('106','H10'),
+('108','H11'),
+('110','H12'), ('110','H13'),
+('109','T10'),
+('111','T11'), ('111','T12');
+
+SELECT * FROM `teacher_teaches`;
+
+INSERT INTO `exam_subject` VALUES
+('E01','EX19E01'), ('E02','EX19E02'), ('E03','EX19E03'),
+('F01','EX19F01'), ('F02','EX19F02'), ('F03','EX19F03'), ('F04','EX19F04'),
+('H10','EX19H10'), ('H11','EX19H11'), ('H12','EX19H12'), ('H13','EX19H13');
+
+SELECT * FROM `exam_subject`;
+
+INSERT INTO `student_course` VALUES 
+('S10','NP01'), ('S10','NP02'), ('S10','NP03'),
+('S11','NP04'), ('S11','NP05'), ('S11','NP06'),
+('S12','NP07'), ('S12','NP08'), ('S13','NP09'), ('S13','NP10');
+
+SELECT * FROM `student_course`;
+
+SELECT 
+UCASE(`teacher_name`) AS `Teacher Name`,
+`teacher_id` AS `Teacher ID`,
+`department_id` AS `Department ID` 
+FROM `Teacher` ORDER BY `teacher_name` ASC;
+
+SELECT 
+LCASE(`Teacher Name`),
+`Teacher ID`,
+`Department ID` 
+FROM (SELECT TRIM(`teacher_name`) AS `Teacher Name`,
+`teacher_id` AS `Teacher ID`,
+`department_id` AS `Department ID` 
+FROM `Teacher` ORDER BY `teacher_name` ASC) AS T;
+
+SELECT 
+Student.student_id AS `student ID`,
+CONCAT(`present_days`,' \/ ',`total_class`) AS `Present/Total`,
+`class_id` AS `Class ID`
+FROM
+`student`, `attendance` 
+WHERE 
+student.student_id = attendance.student_id 
+AND Student.class_id = 'LT02';
+
+SELECT
+`Student_id` AS `Old Student ID`,
+REPLACE(`student_id`, 'NP', 'PP') AS `NEW Student ID`  
+FROM `Student`; 
+
+SELECT
+AVG(`sub_marks`) AS `Average Marks`,
+`student_id` AS `Student ID` 
+FROM `marks` 
+WHERE `student_id`='NP04';
+
+SELECT 
+COUNT(`book_id`) AS `Total Books` 
+FROM `books`;
+
+SELECT 
+`student_id` AS `Student ID`, 
+SUM(`sub_marks`) AS `Total Course Marks` 
+FROM 
+`Marks` GROUP BY `student_id`;
+
+SELECT 
+`student_id` AS `Student ID`, 
+SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100 AS `Percentage` 
+FROM `Marks` 
+GROUP BY `student_id` 
+ORDER BY `Percentage` 
+DESC; 
+
+SELECT 
+`course_id` AS `Course ID`, 
+COUNT(*) AS `Subjects` 
+FROM `Subject` 
+Group BY `course_id`;
+
+SELECT 
+`student_id` AS `STUDENT`,
+`sub_marks` AS  `Heighest Mark`,
+`subject_id` AS `Subject` 
+From `marks`
+WHERE 
+`sub_marks` = (SELECT
+MAX(`sub_marks`)  
+FROM `Marks` 
+WHERE `subject_id`= 'E03') AND `subject_id`= 'E03';
+
+SELECT 
+`student_id` AS `STUDENT`,
+`sub_marks` AS  `Lowest Mark`,
+`subject_id` AS `Subject` 
+From `marks`
+WHERE 
+`sub_marks` = (SELECT
+MIN(`sub_marks`)  
+FROM `Marks` 
+WHERE `subject_id`= 'T12') AND `subject_id`= 'T12';
+
+SELECT 
+DATE(`exam_date`) AS `EXAM DATE`,
+`exam_id` AS `Exam ID` 
+FROM `eximination` 
+WHERE `exam_date` 
+BETWEEN '2019-05-9' AND '2019-05-10';   
+
+SELECT DISTINCT 
+`exam_date` AS `Examination's Date`  
+from `eximination` WHERE `exam_date` LIKE '2019%';
+
+SELECT `student_id` AS `Student ID`, 
+`present_days` AS `Present Days`, 
+(`present_days`/`total_class`)*100 AS `Present(%)` 
+FROM  `attendance` 
+WHERE (`present_days`/`total_class`)*100 > 80;
+
+SELECT 
+`Student_id` AS `Student ID`,
+`subject_id` AS `Subject ID`, 
+`sub_marks` AS `Subject Marks`,
+CASE
+    WHEN `sub_marks` >= 70 THEN 'Good Student'
+    WHEN `sub_marks` >= 60 THEN 'Average Student'
+    ELSE 'Poor Student'
+END AS `Student Remarks` 
+FROM `Marks` WHERE `subject_id` IN ('F04','E01');
+
+Select book_id AS `First ID in Table` from Books ORDER BY `book_id` ASC limit 1;
+
+Select book_id AS `LAST ID in Table` from Books ORDER BY `book_id` DESC limit 1;
+
+SELECT student_id AS `Student`,MID(Student_name, 2, 3) AS `Extracted Substrings(Name)` from Student;
+
+SELECT LEFT(`student_name`, 3) AS `LExtractString` FROM `student`;
+
+SELECT RIGHT(`student_name`, 3) AS `RExtractString` FROM `student`;
+
+SELECT 
+`student_id` AS `Studuent ID`,
+`parent_name` AS `Parent Name`,
+`phone_number` AS `Parent ph. Number`, 
+`parent_address` AS `Address` 
+FROM `Parent` 
+WHERE `parent_name` 
+IN (
+SELECT `parent_name` 
+FROM `parent` 
+WHERE `parent_name` LIKE 'C%'
+);
+
+
+SELECT
+`student_id` AS `Top Scorer`,
+SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100 AS `Percentage`
+FROM `Marks`
+GROUP BY `student_id`
+HAVING (SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100) =
+(
+SELECT MAX(`Percentage`)
+FROM (
+SELECT
+`student_id` AS `Student ID`, 
+SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100 AS `Percentage`
+FROM `Marks`
+GROUP BY `student_id`
+ORDER BY `Percentage` DESC) AS `MaxGrade`
+);
+
+
+SELECT 
+`student_id` AS `Student ID`, 
+`student_name` AS `Student Name`, 
+`parent_name` AS `Parent Name` 
+FROM (
+SELECT 
+Student.student_id, 
+Student.student_name, 
+Parent.parent_name, 
+Parent.phone_number, 
+Student.class_id 
+FROM `Student` 
+INNER JOIN `Parent` 
+ON Student.student_id = Parent.student_id
+) AS JoinedTable;
+
+SELECT 
+`student_id` AS `Student ID`, 
+SUM(`sub_marks`)/(COUNT(`subject_id`)*100)*100 AS `Percentage` 
+FROM `Marks` 
+GROUP BY `student_id`; 
+
+SELECT 
+`department_id` AS `Department ID`, 
+COUNT(*) AS `Teachers in Department` 
+FROM `Teacher` 
+Group BY `department_id`;
+
+SELECT
+S.student_id `Student ID`,
+C.course_id `Course ID`,
+Cl.class_id `Class ID`
+FROM
+`Student` AS S
+INNER JOIN
+`student_course` AS sc
+ON S.student_id = Sc.student_id
+INNER JOIN
+`Courses` AS C
+ON C.course_id = Sc.course_id
+INNER JOIN
+`Class` AS Cl
+ON Cl.class_id = S.class_id;
+
+SELECT 
+B.book_id `Book ID`,
+B.book_name `Book Name`, 
+M.member_id `Member ID`,
+M.student_id `Student ID`
+FROM 
+`Books` AS B
+LEFT JOIN
+`issued_books` AS I
+ON B.book_id = I.book_id
+LEFT JOIN
+`Members` AS M
+ON
+M.member_id = I.member_id ORDER BY M.member_id DESC;
+
+SELECT 
+B.book_id `Book ID`,
+B.book_name `Book Name`, 
+M.member_id `Member ID`,
+M.student_id `Student ID`
+FROM 
+`Books` AS B
+RIGHT JOIN
+`issued_books` AS I
+ON B.book_id = I.book_id
+RIGHT JOIN
+Members AS M
+ON
+M.member_id = I.member_id ORDER BY B.book_id DESC;
+
+SELECT 
+T.teacher_id AS `Teacher ID`,
+T.teacher_name `Teacher Name`,
+D.department_id `Department ID`,
+S.subject_id `Subejct ID`,
+PH.time_period `Time`
+FROM
+`Department` AS D
+JOIN
+`Teacher` AS T
+ON D.department_id = T.department_id
+JOIN
+teacher_teaches AS TT
+ON T.teacher_id = TT.teacher_id
+JOIN
+Subject AS S
+ON S.subject_id = TT.subject_id
+JOIN
+PeriodHour AS PH
+ON S.subject_id = PH.subject_id;
+
+SELECT
+E.exam_id `Exam ID`,
+S.student_id `Student ID`,
+Su.subject_id `Subject ID`
+FROM
+`Student` AS S, 
+`Eximination` AS E, 
+`Subject` AS Su,
+`Class` AS Cl,
+`exam_subject` AS Es
+WHERE 
+S.class_id = Cl.class_id 
+AND
+Cl.class_id = Su.class_id
+AND
+Su.subject_id = Es.subject_id
+AND
+E.exam_id = Es.exam_id;
+
+INSERT INTO `Student` ( `student_id`, `student_name`, `class_id`, `roll_no`, `DOB`, `gender`) 
+VALUES (
+'NP11','Prakriti Phuyal','LT04','10','2002-01-02','FEMALE'
+);
+
+SELECT * FROM `Student`;
+
+INSERT INTO `Parent` ( `parent_name`, `student_id`, `phone_number`, `parent_address`) 
+VALUES (
+'Catti Phuyal','NP11','9812349079','Bijaynagar, Damak'
+);
+
+SELECT * FROM `Parent`;
+
+INSERT INTO `student_course` (`course_id`,`student_id`)
+VALUES (
+'S13', 'NP11'
+);
+
+SELECT * FROM `student_course`;
+
+INSERT INTO `Members` (`member_id`,`student_id`)
+VALUES (
+'LRBNP11', 'NP11'
+);
+
+SELECT * FROM `Members`;
+
+INSERT INTO `Books` (`book_name`,`writer`)
+VALUES (
+'The Shadow of the Wind', 'Carlos Ruiz Zafon'
+);
+
+SELECT * FROM `Books`;
+
+UPDATE `Student`
+SET 
+`student_name` = 'Samyog Gotam',
+`class_id` = 'LT04',
+`gender` = 'FEMALE'
+WHERE `student_id` = 'NP07';
+
+SELECT * FROM `Student`;
+
+UPDATE `Staff`
+SET 
+`staff_name` = 'Rose Khadka',
+`work_role` = 'Event Manager',
+`staff_phone` = '9842223333'
+WHERE `staff_id` = 'SF06';
+
+SELECT * FROM `Staff`;
+
+UPDATE `Teacher`
+SET 
+`teacher_address` = 'Rara Lake',
+`department_id` = 'TS10'
+WHERE `teacher_id` = 110;
+
+SELECT * FROM `Teacher`;
+
+UPDATE `teacher_teaches`
+SET
+`subject_id` = 'E01'
+WHERE teacher_id = '110';
+
+SELECT * FROM `teacher_teaches`;
+
+UPDATE `periodhour`
+SET
+`time_period` = 1
+WHERE subject_id = 'H13';
+
+SELECT * FROM `periodhour`;
+
+DELETE FROM `student_course` WHERE `student_id`= 'NP11';
+
+SELECT * FROM `student_course`;
+
+DELETE FROM `members` WHERE `student_id`= 'NP11';
+
+SELECT * FROM `members`;
+
+DELETE FROM `Parent` WHERE `student_id`= 'NP11';
+
+SELECT * FROM `Parent`;
+
+DELETE FROM `Student` WHERE `student_id`= 'NP11';
+
+SELECT * FROM `Student`;
+
+DELETE FROM `issued_books` WHERE `book_id`= 1006;
+
+SELECT * FROM `issued_books`;

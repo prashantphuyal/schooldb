@@ -1,0 +1,4 @@
+https://www.guru99.com/joins.html
+https://www.codecademy.com/articles/sql-commands
+https://www.w3schools.com/sql/sql_ref_mysql.asp
+https://www.studytonight.com/dbms/sql-function.php
